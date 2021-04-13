@@ -1,0 +1,403 @@
+<html>
+<head>
+	<link rel="shortcut icon" id="gameIcon" type="image/x-icon" href="resources/favicon-normal.png">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>
+		1255 Burgomaster
+	</title>
+	<style type="text/css">
+		/*canvas*/
+		.canvas {
+			left:0px;
+			top:-6px;
+			position:relative;
+		}
+		/*background*/
+		.background {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:-1;
+		}
+		/*wall rear*/
+		.over1 {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:1;
+		}
+		/*buildings*/
+		.over2 {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:2;
+		}
+		/*wall front*/
+		.over3 {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:3;
+		}
+		/*fire*/
+		.fire {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:4;
+		}
+		.interface {
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:99;
+		}
+		.resources{
+			position: relative;
+			left:0px;
+		}
+		/*
+		#defence, #homes, #treasury {
+			width: 180px;
+		}
+		#buttonBldGallows, #buttonBldFountain, #buttonBldStash {
+			width: 180px;
+		}*/
+		#console_n_chat, #lblAutocampaignJournal, #lblAutocampaignBattle {
+			/*resize: none;*/
+			overflow: auto;
+		}
+
+		#lblAutocampaignJournal {
+			width: 800px;
+			height: 420px;
+			top: 60px;
+			left: 10px;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+
+		/* Style the tab */
+		div.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+
+			width: 800px;
+			background-color: #f1f1f1;
+		}
+		div {
+			color: #2f3236;
+		}
+		/* Style the buttons inside the tab */
+		div.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 16px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
+		td.building {
+			width:180px;
+		}
+		button.building {
+			width:180px;
+		}
+		/* Change background color of buttons on hover */
+		div.tab button:hover {
+			background-color: #ddd;
+		}
+
+		/* Create an active/current tablink class */
+		div.tab button.active {
+			background-color: #ccc;
+		}
+
+		/* Style the tab content */
+		.tabcontent {
+			display: none;
+			padding: 6px 0px;
+			border: 1px solid #ccc;
+			border-top: none;
+			height: 470px;
+			width: 800px;/*800-12*2*/
+		}
+		/* Style the close button */
+		.topright {
+			float: right;
+			cursor: pointer;
+			font-size: 20px;
+		}
+		.topright:hover {color: red;}
+		#lblAboutGame {
+			width: 795px;
+			height: 475px;
+			border: thin solid black;
+			overflow:scroll;
+			/*
+			overflow-x: hidden;
+			overflow-y: scroll;
+			*/
+		}
+		#lblEventLBDetails {
+			width: 795px;
+			height: 425px;
+			border: thin solid black;
+			overflow:scroll;
+			/*
+			overflow-x: hidden;
+			overflow-y: scroll;
+			*/
+		}
+		#htmlGame {
+			margin: auto;
+		}
+		#theBuildingDiv {
+			width: 795px;
+			height: 415px;
+			border: thin solid black;
+			overflow:scroll;
+			/*
+			overflow-x: hidden;
+			overflow-y: scroll;
+			*/
+		}
+
+		/*-- Some new styles --*/
+
+		.btn-hire {
+			width: 200px;
+			height: 45px;
+		}
+
+		.btnArrow {
+			padding-left: 1px;
+			padding-right: 1px;
+		}
+		.lblHiringTroops {
+			font-size: 12px;
+		}
+
+		.btnDismiss {
+			padding: 0 1px;
+			height: 22px;
+		}
+
+		.accordion {
+			box-sizing: border-box;
+			width: 100%;
+			padding: 0 20px;
+			margin-bottom: 6px;
+		}
+
+		.accordion-header {
+			padding: 8px 10px;
+			border: 1px solid #333;
+			background-color: #f1f1f1;
+		}
+
+		.accordion-body {
+			display: none;
+			padding: 10px;
+		}
+
+		.accordion.active > .accordion-body {
+			display: block;
+		}
+
+		.unit-main {
+			display: flex;
+		}
+
+		.unit-info {
+			margin-left: 10px;
+		}
+
+		.unit-info > p {
+			margin-top: 0;
+			margin-bottom: 4px;
+		}
+
+	</style>
+	<script id="chatBroEmbedCode">
+		/* Chatbro Widget Embed Code Start */
+		function ChatbroLoader(chats,async){async=!1!==async;var params={embedChatsParameters:chats instanceof Array?chats:[chats],lang:navigator.language||navigator.userLanguage,needLoadCode:'undefined'==typeof Chatbro,embedParamsVersion:localStorage.embedParamsVersion,chatbroScriptVersion:localStorage.chatbroScriptVersion},xhr=new XMLHttpRequest;xhr.withCredentials=!0,xhr.onload=function(){eval(xhr.responseText)},xhr.onerror=function(){console.error('Chatbro loading error')},xhr.open('GET','//www.chatbro.com/embed.js?'+btoa(unescape(encodeURIComponent(JSON.stringify(params)))),async),xhr.send()}
+		/* Chatbro Widget Embed Code End */
+		ChatbroLoader({encodedChatId: '1Leg'});
+	</script>
+</head>
+<body>
+<div id="htmlGame">
+		<div class="tab">
+			<button class="tablinks" onclick="openTab(event, 'Main')" id="tabCity">Main</button>
+			<!--<button class="tablinks" onclick="openTab(event, 'Explore')" id="tabExplore" style="display:none">Explore</button>-->
+			<button class="tablinks" onclick="openTab(event, 'Building')" id="tabBuilding">Building</button>
+			<button class="tablinks" onclick="openTab(event, 'Garrison')" id="tabGarrison">Garrison</button>
+			<button class="tablinks" onclick="openTab(event, 'Settings')" id="tabSettings">Settings</button>
+			<button class="tablinks" onclick="openTab(event, 'About')" id="tabAbout">How To Play</button>
+			<button class="tablinks" onclick="openTab(event, 'Discord')" id="tabDiscord">Discord</button>
+			<div id="dcounter">30</div>
+			<div id="lblEventCountdownValue" style="margin-left:20px;" onclick="game.getEventHelp()"></div>
+			<!--<a href="https://www.patreon.com/bePatron?u=7838459" target="_blank"><img src="resources/patreon.png" style="padding: 6px 0px"></a>-->
+		</div>
+		<div id="Main" class="tabcontent">
+			<canvas width="800" height="480" id="canvas" class="canvas" style="z-index:1"></canvas>
+			<br>
+			<p id="resources">
+				<span id="gold" class="interface" onclick="checkGold()" style="position:absolute; top:100px; left:60px">0</span>
+				<br>
+				<br>
+				<span id="pop"  class="interface" onclick="checkPop()"  style="position:absolute; top:140px; left:60px">2</span>
+				<br>
+				<br>
+				<span id="gems"  class="interface" onclick="showModal(0, '', getAck, localeStrings[90],  localeStrings[60], '');" style="position:absolute; top:180px; left:60px">0</span>
+			</p>
+			<p id="events_graphics" style="z-index: 8">
+
+			</p>
+			<!--<img src="resources/fire_a.gif" id="fire_graphics" onclick="putOutFire()" style="position:absolute; top:170px; left:0px; z-index=98; display:none">-->
+			<button id="saveGameButton"   onclick="saveGame()" class="interface" style="top:250px; left: 20px">Save game</button>
+			<button id="loadGameButton"   onclick="loadGame()" class="interface" style="display: inline; top:310px; left: 20px; visibility:hidden">Load game</button>
+			<button id="buttonPutOutFire"   onclick="game.putOutFire()" class="interface" style="top:370px; left: 20px; display:none">Put out fire</button>
+			<button id="buttonDeathPenalty"   onclick="game.deathPenalty()" class="interface" style="top:460px; left: 20px; display:none">Execute smb</button>
+			<button id="buttonDebug"   onclick="ym(47225574, 'reachGoal', 'min5'); return true;" class="interface" style="top:190px; left: 20px; display:none">X</button>
+			<!--
+			<iframe id="constructionWindow" src="construction.html" class="interface" style="left:600px" width="1" height="1"></iframe>
+			<button id="constructionButton" onclick="maximizew('construction')" class="interface" style="top:260px">Open construction menu</button>
+			-->
+		</div>
+		<div id="Explore" class="tabcontent">
+			<canvas width="800" height="480" id="canvasMap" class="canvas" style="z-index:1"></canvas>
+		</div>
+		<div id="Settings" class="tabcontent">
+			<!--<span onclick="this.parentElement.style.display='none'" class="topright">x</span>-->
+			<h3><div id="labelSettings">Settings</div></h3>
+			<!-- TODO make checkboxes with chat system messages -->
+			<!--<p>Alert / MSG to chat</p>-->
+			<select id="selectLng" size="1" onchange="reloadLang()">
+				<option id="optionLngEn" selected value="en-US">English</option>
+				<option id="optionLngRu"          value="ru-RU">Русский</option>
+				<option id="optionLngGe"          value="de-DE">Deutsch</option>
+				<option id="optionLngEo"          value="eo">Esperanto</option>
+				<option id="optionLngFr"          value="fr-FR">Français</option>
+			</select>
+			<table>
+			<tr>
+				<!-- TODO make a message about turning on / off autosaves for color disabled people -->
+				<td width="40%"><label id="labelAutosave">Autosave</label><img id="autosaveImg" onclick="changeAutosave()" src="resources/button_red.png" style="margin-left: 20px;"></td>
+				<td><button id="buttonExportGame" onclick="exportGame()" >Export Game</button></td>
+				<td><button id="buttonImportGame" onclick="importGame()" >Import Game</button></td>
+			</tr>
+			</table>
+            <br>
+			<input id="savestring" name="savestring" value="" style="width:600px">
+            <br>
+            <a id="downloadGame" href="https://github.com/Areso/1255-burgomaster/archive/gh-pages.zip">Download game for playing off-grid (to play without Internet connection)</a>
+			<br>
+            <br>
+			<button id="btnColorMode" onclick="changeColorMode()">ChangeColorMode</button>
+			<button id="btnSoundSettings" onclick="openTab(null, 'tabSettingsSound')">Open sound settings</button>
+            <br>
+            <br>
+			<input type="checkbox" id="cbMobileUI" value="mobileUI" onclick="game.mobileUI()" style="margin-left: 50px;"><label id="lblStnMobileUI">Mobile UI</label>
+			<label id="lblStnEventLogSize" style="margin-left: 20px;">Event log size</label>
+			<input id="inpStnEventLogSize" value="" onchange="game.setupEventLogSize()" style="width:35px; margin-right:10px;">
+			<label id="lblStnLines">lines</label>
+			<br>
+			<lable id="lblStnUID" style="visibility:hidden;">Your UID</lable><label id="lblStnUIDValue" style="margin-left: 20px; visibility:hidden;"></label>
+			<label id="lblStnAlias" style="margin-left: 30px;" >Your nickname</label>
+			<input id="inpStnAliasValue" value="" onchange="game.updateAlias()" style="margin-left: 20px;">
+			<br>
+			<label id="lblStnAliasResult"></label><br>
+			<textarea id="patchnotes" class="interface" value="" style="width:700px; height:280px; top:255px; left:40px; visibility: hidden;"></textarea>
+		</div>
+		<div id="tabSettingsSound" class="tabcontent">
+			<label id="lblSoundMenu">Sound effects and music</label><br>
+			<!--Note, those above overwrite those below-->
+			<table border="0" width="100%">
+				<tr>
+					<td width="60%"><label id="lblOption">Option</label></td>
+					<td width="20%"><label id="lblOn">On</label></td>
+					<td width="20%"><label id="lblOff">Off</label></td>
+				</tr>
+				<tr>
+					<td width="60%"><label id="lblSfxAll">All sound effects</label></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx"
+										   id = "sfx_on"
+										   value = "on"
+										   onchange="game.setupAudio('sfx','all',1)"/></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx"
+										   id = "sfx_off"
+										   value = "off"
+										   onchange="game.setupAudio('sfx','all',0)"
+										   checked = "checked" /></td>
+				</tr>
+				<tr>
+					<td width="60%"><label id="lblSfxEvt">Effects on all events</label></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx_events"
+										   id = "sfx_events_on"
+										   value = "on"
+										   onchange="game.setupAudio('sfx','events',1)"/></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx_events"
+										   id = "sfx_events_off"
+										   value = "off"
+										   onchange="game.setupAudio('sfx','events',0)"
+										   checked = "checked" /></td>
+				</tr>
+				<tr>
+					<td width="60%"><label id="lblSfxEvtAR">Effects on action required events</label></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx_actions"
+										   id = "sfx_actions_on"
+										   value = "on"
+										   onchange="game.setupAudio('sfx','actions',1)"/></td>
+					<td width="20%"><input type = "radio"
+										   name = "sfx_actions"
+										   id = "sfx_actions_off"
+										   value = "off"
+										   onchange="game.setupAudio('sfx','actions',0)"
+										   checked = "checked" /></td>
+				</tr>
+				<tr>
+					<td width="60%">-----</td>
+					<td width="20%">-----</td>
+					<td width="20%">-----</td>
+				</tr>
+				<tr>
+					<td width="60%"><label id="lblMscAll">Music all</label></td>
+					<td width="20%"><input type = "radio"
+										   name = "music_all"
+										   id = "music_on"
+										   value = "on"
+										   onchange="game.setupAudio('music','all',1)"/></td>
+					<td width="20%"><input type = "radio"
+										   name = "music_all"
+										   id = "music_off"
+										   value = "off"
+										   onchange="game.setupAudio('music','all',0)"
+										   checked = "checked" /></td>
+				</tr>
+				<tr>
+					<td width="60%"><label id="lblMscScr">Lore and scenery music</label></td>
+					<td width="20%"><input type = "radio"
+										   name = "music_script"
+										   id = "music_scripts_on"
+										   onchange="game.setupAudio('music','scripts',1)"
+										   value = "on" /></td>
+					<td width="20%"><input type = "radio"
+										   name = "music_script"
+										   id = "music_scripts_off"
+										   value = "off"
+										   onchange="game.setupAudio('music','scripts',0)"
+										   checked = "checked" /></td>
+				</tr>
+			</table>
+			<br>
+			<hr>
